@@ -1,0 +1,573 @@
+const QUIZ_CHAPTERS = [
+  {
+    id: "quotidien",
+    title: "Les gestes du quotidien",
+    subtitle: "10 questions à chaque fois, tirées d'une banque de 38, jamais deux fois la même avant d'avoir fait tout le tour",
+    questions: [
+      {
+        id: "q1",
+        scenario: "Tu presses un citron au-dessus d'un verre d'eau pour en extraire le jus et le boire.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Dash / Molid (extraire un liquide)",
+        source: "Choulhan Aroukh, Orah Haim, siman 320",
+        explain: "Extraire le jus d'un fruit pour le boire est considéré comme « faire naître » un nouveau liquide (מוליד), ce qui est interdit le Chabbat — même si le geste en lui-même est simple. Seuls le raisin et l'olive sont interdits d'origine biblique (deoraita) pour cet usage ; pour les autres fruits comme le citron, l'interdit est d'origine rabbinique (derabbanan).",
+        howto: "Presse le citron avant l'entrée de Chabbat et garde le jus au réfrigérateur. Si tu es déjà à table, verse d'abord un peu de nourriture solide dans le verre : presser un fruit sur un aliment déjà présent (plutôt que dans le liquide seul) est permis pour beaucoup de décisionnaires."
+      },
+      {
+        id: "q2",
+        scenario: "Après t'être lavé les mains, tu essores une serviette bien trempée pour qu'elle ne reste pas mouillée.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Melabben (blanchir/laver)",
+        source: "Choulhan Aroukh, Orah Haim, siman 301",
+        explain: "Essorer un tissu imbibé d'eau (סחיטה) est interdit, pour la même raison que presser un fruit : on en fait sortir un liquide qui y était absorbé. Pour un tissu, c'est un dérivé du travail de « lessive » (מלבן), considéré comme un interdit d'origine biblique (deoraita).",
+        howto: "Secoue la serviette ou laisse-la sécher à l'air libre sans la tordre. Si tu dois éponger quelque chose, tapote sans presser ni essorer."
+      },
+      {
+        id: "q3",
+        scenario: "Il y a un tas de pièces de monnaie ou ton téléphone posés sur la table du salon. Tu les déplaces simplement pour faire de la place, sans autre besoin.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Muktsé",
+        source: "Choulhan Aroukh, Orah Haim, siman 310",
+        explain: "L'argent (et par extension tout objet sans aucune utilité permise le Chabbat, comme un téléphone) est muktsé : il est interdit de le déplacer, même pour dégager la table, sauf besoin réel (protéger l'objet, libérer une place indispensable). Le muktsé est entièrement une institution rabbinique (derabbanan), il n'existe pas dans la Torah elle-même.",
+        howto: "Si tu as vraiment besoin de la place, déplace l'objet muktsé indirectement (avec le coude, un objet permis, ou en le poussant) plutôt qu'à main nue, ou déplace-le avant l'entrée de Chabbat."
+      },
+      {
+        id: "q4",
+        scenario: "Avant l'entrée de Chabbat, tu laisses un plat déjà cuit, couvert, sur une plaque chauffante restée allumée (blech), pour t'en servir le lendemain à midi.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "deoraita",
+        melakha: "Bishul (cuisson)",
+        source: "Choulhan Aroukh, Orah Haim, siman 253",
+        explain: "C'est permis, à condition que le plat soit déjà cuisiné avant Chabbat et posé sur la source de chaleur avant l'entrée de Chabbat, sur une plaque couverte (non à flamme nue directement visible) — cela évite tout risque d'attiser le feu ou de continuer une cuisson interdite. La cuisson (בישול) elle-même est l'un des 39 travaux d'origine biblique (deoraita) ; c'est pourquoi les conditions pour rester dans le permis sont aussi strictes.",
+        howto: "Pour que ce soit permis : le plat doit être entièrement cuit avant l'entrée de Chabbat, posé sur la plaque avant Chabbat, et la plaque doit être couverte (blech) pour qu'on ne voie pas la flamme directement."
+      },
+      {
+        id: "q5",
+        scenario: "Tu casses pour la première fois l'opercule ou le bouchon scellé d'un pot, sachant que le récipient vide pourra ensuite être réutilisé comme contenant.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Tikoun Kli (façonner un ustensile)",
+        source: "Choulhan Aroukh, Orah Haim, siman 314",
+        explain: "Le principe de ce siman interdit de façonner ou d'achever un ustensile (תיקון כלי). Les décisionnaires appliquent ce principe classique aux emballages modernes qui deviennent, une fois ouverts, un récipient réutilisable — mieux vaut les ouvrir avant Chabbat. La plupart des décisionnaires contemporains classent ce cas d'emballage jetable comme un interdit rabbinique (derabbanan), la fabrication complète d'un ustensile neuf restant le cas biblique classique.",
+        howto: "Ouvre le pot ou l'emballage avant l'entrée de Chabbat. Si tu dois vraiment l'ouvrir pendant Chabbat, essaie de l'abîmer en l'ouvrant (déchirer largement, écraser) plutôt que de l'ouvrir proprement de façon à ce qu'il reste un contenant intact et réutilisable."
+      },
+      {
+        id: "q6",
+        scenario: "Tu fermes un sac plastique de courses avec un vrai double-nœud serré aux deux poignées, avec l'intention de le laisser noué ainsi un moment.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Kocher (nouer)",
+        source: "Choulhan Aroukh, Orah Haim, siman 317",
+        explain: "Faire un nœud destiné à durer (קשר של קיימא) est un travail interdit le Chabbat. Un nœud simple, provisoire, fait pour être défait rapidement, est généralement permis — la différence tient à l'intention de solidité et de durée. L'interdit biblique (deoraita) exige un nœud à la fois permanent ET fait selon un savoir-faire professionnel (קשר של אומן) ; un double-nœud fait par un particulier, même solide, reste donc d'origine rabbinique (derabbanan).",
+        howto: "Pour fermer un sac sans transgresser, fais un nœud simple destiné à être défait rapidement plutôt qu'un double-nœud serré, ou utilise un lien élastique, une pince ou un simple tour sans nouer."
+      },
+      {
+        id: "q7",
+        scenario: "Tu fermes la porte d'entrée à clé, en tournant simplement la clé dans la serrure, avant de sortir.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "deoraita",
+        melakha: "Boneh (construire)",
+        source: "Choulhan Aroukh, Orah Haim, siman 313",
+        explain: "Verrouiller ou déverrouiller une porte avec sa clé normale est un usage courant de la porte, pas un acte de construction : c'est permis. La catégorie concernée, Boneh (construire), est l'un des 39 travaux d'origine biblique (deoraita) — mais un simple tour de clé n'en relève pas du tout, ce qui explique que ce soit permis sans aucune réserve.",
+        howto: "Une clé mécanique classique dans une serrure normale ne pose aucun problème. Une serrure électronique, un digicode ou un cadenas à combinaison relèvent en revanche d'autres questions (usage de l'électricité, écriture des chiffres) à vérifier séparément."
+      },
+      {
+        id: "q8",
+        scenario: "Tu laves les assiettes du repas de midi avec du savon liquide, dans l'idée de les réutiliser propres pour le repas du soir, le même Chabbat.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "derabbanan",
+        melakha: "Hachana (préparer pour après Chabbat)",
+        source: "Choulhan Aroukh, Orah Haim, siman 323",
+        explain: "Laver la vaisselle est permis lorsqu'il y a un vrai besoin de la réutiliser avant la fin du Chabbat — ce n'est pas considéré comme un travail de préparation pour après Chabbat, mais un besoin du jour même. L'interdit de « hachana » (préparer un jour pour un autre) évité ici est d'origine rabbinique (derabbanan) ; c'est pourquoi un vrai besoin du jour même suffit à lever la réserve.",
+        howto: "Ne lave que les couverts et assiettes dont tu as vraiment besoin pour la suite du Chabbat, pas toute la vaisselle sale mise de côté pour après Chabbat — ça, ça peut attendre la fin de Chabbat."
+      },
+      {
+        id: "q9",
+        scenario: "La lumière d'une chambre est restée allumée et t'empêche de dormir. Tu croises un non-juif et tu lui demandes directement de venir l'éteindre pour toi.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Amira Le-Nokri (demander à un non-juif)",
+        source: "Choulhan Aroukh, Orah Haim, siman 276",
+        explain: "Demander DIRECTEMENT à un non-juif d'accomplir une tâche interdite (Amira Le-Nokri) pour un simple besoin de confort ou de sommeil est formellement interdit le Chabbat. L'interdiction ne s'efface que devant un besoin vital, un cas de maladie (même sans danger) ou une perte financière majeure. C'est un interdit d'origine rabbinique (derabbanan, appelé « shvout ») : la Torah n'interdit pas au non-juif lui-même de travailler, ce sont nos sages qui ont interdit de le lui demander.",
+        howto: "Si la lumière empêche de dormir, on ne peut pas donner d'ordre direct. En revanche, on peut formuler une simple phrase narrative à voix haute, sans ordre ni sous-entendu explicite (ex: 'Il y a trop de lumière ici pour dormir'). Si le non-juif choisit de lui-même de l'éteindre pour rendre service, cela est toléré dans certains cas."
+      },
+      {
+        id: "q10",
+        scenario: "Ta cour a un sol en terre battue, pas carrelé. Après un repas pris à l'extérieur, tu balaies avec un vrai balai les miettes et débris qui s'y sont accumulés.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Ḥorech (labourer)",
+        source: "Choulhan Aroukh, Orah Haim, siman 337:2",
+        explain: "Sur un sol en terre, balayer risque de niveler des creux ou des bosses : c'est assimilé à « aplanir le sol », un travail interdit. Sur un sol carrelé ou dallé, sans ce risque, le Choulhan Aroukh permet de balayer avec un balai — mais l'usage achkénaze, suivant le Rama, reste plus strict même sur un sol carrelé. Ramasser les miettes à la main ou avec un chiffon est permis dans tous les cas. C'est une interdiction rabbinique (derabbanan) : ce n'est pas un vrai labourage (חורש, l'un des 39 travaux bibliques), mais une mesure de précaution contre un nivellement involontaire du sol.",
+        howto: "Sur un sol en terre battue, ramasse les miettes et débris à la main ou avec un chiffon plutôt qu'avec un balai. Un balai reste utilisable sans crainte sur un sol carrelé ou dallé (avec plus de réserve dans l'usage achkénaze)."
+      },
+      {
+        id: "q11",
+        scenario: "Tu déchires soigneusement, le long du pointillé prévu, un sachet de gâteaux pour l'ouvrir.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "derabbanan",
+        melakha: "Tikoun Kli (façonner un ustensile)",
+        source: "Choulhan Aroukh, Orah Haim, siman 314",
+        explain: "Ouvrir un emballage jetable qui ne devient pas un récipient réutilisable n'est pas « façonner un ustensile » : c'est permis, contrairement au cas d'un pot qui reste utilisable une fois ouvert. C'est la même catégorie que ce cas-là (Tikoun Kli, généralement classée derabbanan pour les emballages modernes), mais ici les conditions de l'interdit ne sont simplement pas réunies.",
+        howto: "Continue de déchirer le long du pointillé prévu à cet effet. Évite d'utiliser un ciseau ou un couteau pour découper proprement l'emballage, ce qui pose un problème distinct de « découpage » (קורע) selon certains avis."
+      },
+      {
+        id: "q12",
+        scenario: "Tu signes un reçu ou tu écris ton nom au stylo sur un formulaire.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Kotev (écrire)",
+        source: "Choulhan Aroukh, Orah Haim, siman 340",
+        explain: "Écrire, même quelques lettres ou une simple signature, fait partie des 39 travaux interdits (כותב), et c'est un interdit d'origine biblique (deoraita), sans lien avec la longueur ou l'importance de ce qui est écrit.",
+        howto: "Prépare et signe tout document nécessaire avant l'entrée de Chabbat. S'il s'agit d'un besoin réellement vital (documents administratifs urgents pour raison médicale), consulte un rav : il existe des façons de modifier l'écriture (à l'envers, avec le mauvais coude) qui allègent le niveau de l'interdit sans le supprimer."
+      },
+      {
+        id: "q13",
+        scenario: "Tu te coupes les ongles des mains avec un coupe-ongles avant de sortir.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Gozez (tondre/couper)",
+        source: "Choulhan Aroukh, Orah Haim, siman 340",
+        explain: "Couper les ongles est un dérivé du travail de « tonte » (גוזז), l'un des 39 travaux, séparer une partie du corps qui y était rattachée. C'est un interdit d'origine biblique (deoraita), qu'on utilise un coupe-ongles, des ciseaux ou même les dents.",
+        howto: "Coupe-toi les ongles avant l'entrée de Chabbat si tu penses en avoir besoin. Le cas d'un ongle à moitié détaché qui gêne réellement est plus nuancé — demande à un rav."
+      },
+      {
+        id: "q14",
+        scenario: "Tu arroses une plante d'intérieur avec un arrosoir, comme tu le ferais n'importe quel autre jour.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Zoréa (semer/planter, par extension)",
+        source: "Choulhan Aroukh, Orah Haim, siman 336",
+        explain: "Arroser une plante favorise sa croissance, ce qui est rattaché par nos sages au travail de « semer » (זורע) — l'un des 39 travaux à l'origine, mais l'extension à l'arrosage de plantes déjà en terre est classée comme un interdit rabbinique (derabbanan).",
+        howto: "Arrose tes plantes avant l'entrée de Chabbat. Si de l'eau se renverse involontairement sur une plante en faisant autre chose (comme laver par terre), ce n'est généralement pas un problème puisque ce n'est pas ton intention."
+      },
+      {
+        id: "q15",
+        scenario: "Il pleut. Tu ouvres un parapluie dans la rue pour te protéger en marchant.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Ohel Arai (construire une tente provisoire)",
+        source: "Choulhan Aroukh, Orah Haim, siman 315",
+        explain: "Ouvrir un parapluie crée une sorte de toit provisoire (אוהל עראי) au-dessus de la tête, ce que nos sages ont interdit par précaution même s'il ne s'agit pas d'une vraie construction. C'est un interdit d'origine rabbinique (derabbanan).",
+        howto: "Ouvre le parapluie avant l'entrée de Chabbat si tu sais que tu en auras besoin, ou reste à l'abri sans l'ouvrir pendant Chabbat lui-même."
+      },
+      {
+        id: "q16",
+        scenario: "Tu actionnes l'interrupteur pour allumer la lumière électrique d'une pièce.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Mav'ir (allumer un feu)",
+        source: "Choulhan Aroukh, Orah Haim, siman 278",
+        explain: "Le Choulhan Aroukh interdit d'allumer une flamme (מבעיר) le Chabbat, l'un des 39 travaux d'origine biblique (deoraita) ; les décisionnaires appliquent ce même principe à la fermeture d'un circuit électrique qui produit de la lumière, pour la même raison de fond.",
+        howto: "Prépare l'éclairage dont tu as besoin avant l'entrée de Chabbat (minuteur, lumière laissée allumée, ou éteinte dans la pièce où tu ne vas pas). N'actionne aucun interrupteur pendant Chabbat, même pour éteindre."
+      },
+      {
+        id: "q17",
+        scenario: "Tu te coiffes avec une vraie brosse à cheveux aux poils durs, alors que tes cheveux sont un peu emmêlés.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Gozez (tondre/couper, par précaution)",
+        source: "Choulhan Aroukh, Orah Haim, siman 303",
+        explain: "Se coiffer avec une brosse dure sur des cheveux emmêlés risque d'arracher des cheveux, ce qui rejoindrait le travail de « tonte » (גוזז). Comme ce n'est pas l'intention et que le résultat n'est pas certain, c'est classé comme un interdit rabbinique (derabbanan) — mais bien réel.",
+        howto: "Utilise un peigne à dents larges ou une brosse souple, en démêlant doucement, plutôt qu'une brosse dure sur des nœuds serrés."
+      },
+      {
+        id: "q18",
+        scenario: "Un bol contient un mélange d'amandes et de noisettes. Tu retires toutes les amandes pour les mettre de côté, en vue de les manger seulement dans une heure.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Borer (trier/sélectionner)",
+        source: "Choulhan Aroukh, Orah Haim, siman 319",
+        explain: "Trier un mélange en séparant ce qu'on veut manger de ce qu'on ne veut pas est le travail de « Borer » (בורר), l'un des 39 travaux, interdit d'origine biblique (deoraita) lorsqu'on sépare pour plus tard plutôt que pour une consommation immédiate.",
+        howto: "Retire les amandes seulement au moment de les manger tout de suite (Borer est permis à la main, pour consommation immédiate). Si tu veux les mettre de côté pour plus tard, prends plutôt les noisettes (ce que tu ne veux pas garder) pour les jeter, ou attends après Chabbat."
+      },
+      {
+        id: "q19",
+        scenario: "Tu presses un citron directement au-dessus de ta tasse de thé, qui contient déjà les feuilles de thé et du sucre.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "derabbanan",
+        melakha: "Dash / Molid (extraire un liquide)",
+        source: "Choulhan Aroukh, Orah Haim, siman 320",
+        explain: "Contrairement au cas de presser un citron dans un verre d'eau pure, presser un fruit directement sur un aliment déjà présent dans le récipient est permis pour beaucoup de décisionnaires : ce n'est plus perçu comme fabriquer un jus, mais comme assaisonner une boisson déjà préparée.",
+        howto: "Assure-toi qu'il y a déjà quelque chose dans la tasse (thé, sucre) avant de presser le citron dessus — presser directement dans un verre d'eau pure resterait interdit."
+      },
+      {
+        id: "q20",
+        scenario: "Tu cueilles une fleur dans le jardin, ou un fruit encore accroché à sa branche sur un arbre en pot.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Kotzer (moissonner/cueillir)",
+        source: "Choulhan Aroukh, Orah Haim, siman 336",
+        explain: "Détacher un fruit ou une fleur de la plante qui les a fait pousser est le travail de « moisson » (קוצר), l'un des 39 travaux, interdit d'origine biblique (deoraita) — que ce soit dans un champ ou dans un pot de fleurs sur le balcon.",
+        howto: "Cueille avant l'entrée de Chabbat tout ce que tu penses vouloir utiliser (fleurs pour la table, fruits du jardin). Une fois détaché tout seul (fruit tombé), il n'est en général pas muktsé et peut être ramassé."
+      },
+      {
+        id: "q21",
+        scenario: "Tu casses la coquille de pistaches ou de noix avec les doigts pour les manger tout de suite à table.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "deoraita",
+        melakha: "Dash (battre/séparer)",
+        source: "Choulhan Aroukh, Orah Haim, siman 319",
+        explain: "Séparer un fruit de son enveloppe naturelle est en principe rattaché au travail de « battre » (דש), d'origine biblique (deoraita). Mais écaler des fruits à coque pour les manger immédiatement est la façon normale de les consommer (דרך אכילה) : ce n'est pas perçu comme un travail agricole de traitement, donc c'est permis.",
+        howto: "Écale au fur et à mesure, juste avant de manger. Évite d'écaler une grande quantité à l'avance pour la stocker ou la donner à quelqu'un d'autre plus tard : cela se rapprocherait davantage d'un vrai travail de traitement."
+      },
+      {
+        id: "q22",
+        scenario: "Un bouton de ta chemise est tombé. Tu prends une aiguille et du fil pour le recoudre.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Tofer (coudre)",
+        source: "Choulhan Aroukh, Orah Haim, siman 340",
+        explain: "Coudre, même quelques points ou un seul bouton, fait partie des 39 travaux (תופר), interdit d'origine biblique (deoraita), indépendamment de la taille de la réparation.",
+        howto: "Recouds le bouton avant l'entrée de Chabbat, ou porte un autre vêtement pour l'instant. Une épingle à nourrice pour tenir temporairement un vêtement est généralement plus tolérée qu'une vraie couture, à vérifier selon les avis."
+      },
+      {
+        id: "q23",
+        scenario: "Tu agrafes ensemble plusieurs feuilles de papier avec une agrafeuse, pour qu'elles restent attachées.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Tofer (coudre, par extension)",
+        source: "Choulhan Aroukh, Orah Haim, siman 340",
+        explain: "Agrafer des feuilles pour les maintenir assemblées durablement est rapproché par les décisionnaires du travail de « coudre » (תופר) — assembler deux éléments de façon durable. Pour un objet moderne comme l'agrafeuse, l'extension du principe classique est généralement classée comme un interdit rabbinique (derabbanan).",
+        howto: "Agrafe les documents dont tu sais avoir besoin avant l'entrée de Chabbat, ou utilise un trombone (qui ne crée pas d'attache permanente) pour les regrouper temporairement."
+      },
+      {
+        id: "q24",
+        scenario: "Une bougie de Chabbat est encore allumée alors que le repas est terminé depuis longtemps. Tu la souffles simplement parce qu'elle ne sert plus, sans aucun danger.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Mekhabé (éteindre)",
+        source: "Choulhan Aroukh, Orah Haim, siman 278",
+        explain: "Éteindre une flamme (מכבה) est l'un des 39 travaux, interdit d'origine biblique (deoraita), même quand la bougie n'a plus d'utilité et qu'il n'y a aucun risque — contrairement au cas d'un vrai danger (incendie), qui autorise à éteindre.",
+        howto: "Laisse la bougie se consumer et s'éteindre toute seule. Si elle représente un vrai risque (proche d'un rideau, d'un objet inflammable), l'éteindre reste permis dans ce cas précis."
+      },
+      {
+        id: "q25",
+        scenario: "En pleine semaine (pas pour le repas de Chabbat), tu utilises une balance de cuisine électronique pour peser exactement 200 grammes de farine en vue d'une recette.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Memadéd (mesurer)",
+        source: "Choulhan Aroukh, Orah Haim, siman 306",
+        explain: "Mesurer précisément une quantité, en dehors d'un besoin direct du repas de Chabbat, est un interdit rabbinique (derabbanan) : Chabbat n'est pas un jour pour peser et calculer en vue d'une activité de la semaine.",
+        howto: "Prépare et pèse tes ingrédients avant l'entrée de Chabbat si c'est pour après. Mesurer approximativement, à l'œil, pose beaucoup moins de problème qu'une pesée exacte au gramme près."
+      },
+      {
+        id: "q26",
+        scenario: "Tu prends une photo avec ton smartphone pour immortaliser un moment en famille.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Kotev (écrire, par extension)",
+        source: "Choulhan Aroukh, Orah Haim, siman 340",
+        explain: "Le Choulhan Aroukh (16e siècle) ne pouvait pas parler littéralement de photographie, mais les décisionnaires contemporains rattachent la création d'une image numérique permanente au principe de « former une trace durable », dans la même famille que l'écriture (כותב) — un interdit d'origine biblique (deoraita) pour cette catégorie de travail, en plus de l'usage de l'électronique lui-même.",
+        howto: "Prends tes photos avant l'entrée de Chabbat. Pendant Chabbat, profite du moment sans essayer de le capturer — c'est aussi l'esprit du jour."
+      },
+      {
+        id: "q27",
+        scenario: "Tu utilises un moulin à poivre classique pour moudre du poivre frais directement sur ton assiette.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Tochén (moudre)",
+        source: "Choulhan Aroukh, Orah Haim, siman 321",
+        explain: "Moudre, même une petite quantité et même pour une consommation immédiate, est le travail de « moudre » (טוחן), l'un des 39 travaux, interdit d'origine biblique (deoraita) — contrairement au tri (Borer) ou à l'écalage, moudre n'a pas d'exception pour la consommation immédiate.",
+        howto: "Moulds le poivre (ou toute épice) avant l'entrée de Chabbat et garde-le dans un petit récipient prêt à l'emploi, ou utilise du poivre déjà moulu."
+      },
+      {
+        id: "q28",
+        scenario: "Tu verses de l'eau bouillante, fraîchement sortie de la bouilloire, directement sur des feuilles de thé pour préparer une infusion.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Bishoul (cuire, par transvasement — Iroui Kli Richon)",
+        source: "Choulhan Aroukh, Orah Haim, siman 318",
+        explain: "Verser un liquide bouillant directement depuis son récipient de cuisson (« kéli richon ») sur un aliment cru le fait réellement cuire, même sans le remettre sur le feu. C'est une forme de cuisson, interdit d'origine biblique (deoraita).",
+        howto: "Prépare ton thé avec de l'essence de thé préparée avant Chabbat, ou verse d'abord l'eau chaude dans une tasse vide (elle devient un « kéli chlichi », un 3e récipient) puis ajoute les feuilles — selon les avis suivis par ta communauté, demande à ton rav le protocole exact."
+      },
+      {
+        id: "q29",
+        scenario: "Tu as retiré une casserole de la plaque chauffante (blech) et tu l'as posée sur le plan de travail. Une heure plus tard, tu veux la reposer sur le blech pour garder le plat au chaud.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Bishoul (cuire — Ha'hazara, remettre un plat sur le feu)",
+        source: "Choulhan Aroukh, Orah Haim, siman 253",
+        explain: "Remettre un plat sur une source de chaleur (« ha'hazara ») n'est permis que sous des conditions strictes : le plat doit être tenu en main sans jamais être posé, la plaque doit être couverte, et le plat doit déjà être au moins partiellement cuit. Dès qu'on l'a posé sur le plan de travail, ces conditions ne sont plus réunies : le reposer est un interdit rabbinique (derabbanan).",
+        howto: "Si tu enlèves un plat du blech, garde-le à la main sans le poser si tu comptes le reposer, ou dépose-le d'emblée sur une plaque annexe déjà prévue à cet effet dès le départ."
+      },
+      {
+        id: "q30",
+        scenario: "Tu te laves les mains avec un savon liquide ou un shampoing qui mousse abondamment.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Molid (créer une substance nouvelle — la mousse)",
+        source: "Choulhan Aroukh, Orah Haim, siman 302",
+        explain: "Créer de la mousse ou de l'écume est considéré comme « faire naître » (molid) une nouvelle substance qui n'existait pas auparavant, un interdit d'origine rabbinique (derabbanan) rattaché à l'esprit du travail de pétrir (Lash).",
+        howto: "Utilise un savon dur (pain de savon) plutôt qu'un savon liquide, ou un savon liquide spécial « Chabbat » qui ne mousse pas, disponible dans le commerce."
+      },
+      {
+        id: "q31",
+        scenario: "Avant Chabbat, tu poses ton téléphone (muktsé) sur une chaise. Pendant Chabbat, tu veux déplacer cette chaise pour t'asseoir ailleurs, alors que le téléphone est resté dessus.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Muktsé (bassis lédavar ha'assour — support d'un objet muktsé)",
+        source: "Choulhan Aroukh, Orah Haim, siman 309",
+        explain: "Un objet permis qui sert de support (« bassis ») à un objet muktsé, posé intentionnellement dessus avant Chabbat, devient lui-même muktsé et ne peut pas être déplacé tant que l'objet muktsé s'y trouve — sauf besoin réel de la chaise elle-même (comme s'asseoir dessus là où elle est).",
+        howto: "Avant Chabbat, prends l'habitude de ne rien poser de muktsé sur des meubles que tu comptes déplacer. Si besoin, on peut retirer l'objet muktsé lui-même avec le dos de la main ou un objet permis, plutôt que de déplacer le support."
+      },
+      {
+        id: "q32",
+        scenario: "Tu as un léger mal de tête ordinaire et tu prends un comprimé antidouleur, comme tu le ferais n'importe quel autre jour.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Réfoua (décret rabbinique sur les médicaments — chéhikat samamanim)",
+        source: "Choulhan Aroukh, Orah Haim, siman 328",
+        explain: "Les sages ont institué un décret général interdisant de prendre un médicament pour un malaise léger et courant, de peur qu'on en vienne à broyer soi-même des remèdes (moudre) le jour de Chabbat. Cet interdit rabbinique (derabbanan) ne s'applique pas en cas de réelle souffrance ou de maladie plus sérieuse — dans ce cas, il faut se renseigner car les règles s'assouplissent nettement.",
+        howto: "Pour un inconfort mineur et habituel, essaie d'attendre la fin de Chabbat. En cas de douleur plus forte, de fièvre, ou de doute sur la gravité, un médicament reste permis — demande à ton rav si tu hésites."
+      },
+      {
+        id: "q33",
+        scenario: "Pour préparer un biberon, tu verses de l'eau bouillante fraîchement sortie de la bouilloire directement sur la poudre de lait infantile.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "deoraita",
+        melakha: "Bishoul (cuire, par transvasement — Iroui Kli Richon)",
+        source: "Choulhan Aroukh, Orah Haim, siman 318",
+        explain: "Comme pour le thé, verser un liquide bouillant sortant directement de son récipient de cuisson sur une poudre la fait cuire — un interdit d'origine biblique (deoraita), même s'il s'agit de nourrir un bébé.",
+        howto: "Prépare à l'avance de l'eau chaude dans un thermos (déjà en dessous du seuil de cuisson, « yad soledet bo »), ou verse l'eau chaude dans un biberon vide (kéli chlichi) avant d'y ajouter la poudre. Demande à ton rav la méthode recommandée — les besoins d'un nourrisson permettent souvent des solutions pratiques."
+      },
+      {
+        id: "q34",
+        scenario: "Tu utilises des feuilles de papier essuie-tout ou de papier toilette déjà pré-découpées, préparées avant l'entrée de Chabbat.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "derabbanan",
+        melakha: "Kore'a (déchirer)",
+        source: "Choulhan Aroukh, Orah Haim, siman 340",
+        explain: "Le problème du papier toilette ou essuie-tout en rouleau est qu'il faut le déchirer pour le séparer, ce qui pose un problème de Kore'a. Si les feuilles sont déjà séparées avant Chabbat, il n'y a plus aucun acte de déchirer à faire — leur usage est donc permis.",
+        howto: "Prépare et découpe à l'avance des piles de papier toilette et d'essuie-tout avant l'entrée de Chabbat, pour toute la durée du Chabbat."
+      },
+      {
+        id: "q35",
+        scenario: "Tu pars te promener à pied, loin de chez toi, jusqu'à dépasser la limite de ta ville ou de ton quartier (« tehoum Chabbat »), sans qu'aucun érouv de tehoumin n'ait été établi.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Tehoum Chabbat (limite de déplacement)",
+        source: "Choulhan Aroukh, Orah Haim, siman 397",
+        explain: "Au-delà d'une certaine distance depuis les habitations de sa ville (environ 2000 coudées, soit un peu moins d'un kilomètre, dans le prolongement de l'agglomération), il est interdit rabbiniquement de marcher le jour de Chabbat. Cette limite est distincte de l'érouv de « hotza'a » (le fait de porter d'un domaine à un autre) : ici, il s'agit uniquement d'une distance de marche.",
+        howto: "Renseigne-toi sur les limites de tehoum de ta ville avant de partir en promenade longue le jour de Chabbat, en particulier si tu marches vers une localité voisine."
+      },
+      {
+        id: "q36",
+        scenario: "Tu utilises un marteau (un outil « dont l'usage habituel est interdit ») uniquement pour caler une porte qui grince, sans t'en servir pour marteler quoi que ce soit.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 0,
+        badge: "permis",
+        level: "derabbanan",
+        melakha: "Muktsé (kéli chémélakhto lé'issour)",
+        source: "Choulhan Aroukh, Orah Haim, siman 308",
+        explain: "Un outil dont l'usage principal est une activité interdite (« kéli chémélakhto lé'issour ») reste malgré tout déplaçable pour un besoin réel de l'objet lui-même ou de la place qu'il occupe — ici, on utilise le marteau lui-même comme cale, ce qui est un usage direct et permis de l'objet, pas de son usage habituel de martelage.",
+        howto: "Rappelle-toi la distinction : un outil « lé'issour » peut être déplacé s'il sert lui-même à quelque chose de permis, mais pas juste pour le ranger sans raison — dans ce cas il faudrait un léger besoin supplémentaire (« tsorekh mékomo »)."
+      },
+      {
+        id: "q37",
+        scenario: "Tu passes tes mains sous un robinet équipé d'un capteur automatique, qui déclenche l'écoulement de l'eau électroniquement dès qu'il détecte ta présence.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Mav'ir (allumer un circuit électrique, par déclenchement)",
+        source: "Choulhan Aroukh, Orah Haim, siman 278",
+        explain: "Même si tu n'appuies sur aucun interrupteur, ton geste déclenche directement un circuit électrique. La majorité des décisionnaires traitent ce déclenchement direct comme un acte actif plutôt qu'un simple effet indirect (« grama »), ce qui le classe comme interdit lié au même principe que l'interrupteur électrique.",
+        howto: "Cherche les robinets, distributeurs de savon ou éclairages à commande manuelle dans les lieux publics le jour de Chabbat, ou évite-les si une alternative existe."
+      },
+      {
+        id: "q38",
+        scenario: "Tu prépares une grande quantité de concombres dans une saumure de vinaigre et de sel, pour qu'ils marinent plusieurs jours avant d'être consommés la semaine suivante.",
+        options: ["Permis", "Interdit"],
+        correctIndex: 1,
+        badge: "interdit",
+        level: "derabbanan",
+        melakha: "Mé'abéd (saler/conserver — dérivé de tanner)",
+        source: "Choulhan Aroukh, Orah Haim, siman 321",
+        explain: "Saler ou mariner un aliment dans le but explicite de le conserver pendant une longue durée est rattaché au travail de « tanner » (mé'abéd), un interdit d'origine rabbinique (derabbanan) lorsqu'il s'agit d'un aliment — à distinguer d'assaisonner une petite quantité pour une consommation immédiate, qui reste permis.",
+        howto: "Prépare tes marinades et conserves avant l'entrée de Chabbat. Le jour même, tu peux assaisonner une portion destinée à être mangée dans l'heure, mais pas en grande quantité en vue de la semaine."
+      }
+    ]
+  }
+];
+
+let quizCurrentChapterId = null;
+let quizSessionQuestions = [];
+let quizCurrentIndex = 0;
+let quizScore = 0;
+let quizWrongCount = 0;
+let quizAnswered = false;
+
+// On tire jusqu'à 10 questions à chaque nouvelle entrée dans un chapitre, dans un ordre aléatoire.
+const QUIZ_TARGET_LEN = 10;
+
+function quizGetChapter(id){
+  return QUIZ_CHAPTERS.find(c => c.id === id);
+}
+
+function quizShuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Les questions ratées sont mémorisées par chapitre (sur ce téléphone) et repassent en priorité
+// dans un futur questionnaire — pas forcément le suivant, selon le tirage aléatoire — jusqu'à ce
+// qu'elles soient répondues correctement une fois.
+function quizMissedKey(chapterId){ return "quizMissed_" + chapterId; }
+
+
+function quizGetMissedIds(chapterId){
+  try{ return JSON.parse(localStorage.getItem(quizMissedKey(chapterId)) || "[]"); }
+  catch(e){ return []; }
+}
+
+function quizMarkMissed(chapterId, questionId){
+  const ids = quizGetMissedIds(chapterId);
+  if(!ids.includes(questionId)){
+    ids.push(questionId);
+    quizSetMissedIds(chapterId, ids);
+  }
+}
+
+function quizMarkResolved(chapterId, questionId){
+  const ids = quizGetMissedIds(chapterId).filter(id => id !== questionId);
+  quizSetMissedIds(chapterId, ids);
+}
+
+function quizShuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function quizCycleKey(chapterId){ return "quizCycleUsed_" + chapterId; }
+
+function quizGetCycleUsed(chapterId){
+  try{ return JSON.parse(localStorage.getItem(quizCycleKey(chapterId)) || "[]"); }
+  catch(e){ return []; }
+}
+
+function quizAddCycleUsed(chapterId, ids){
+  const merged = Array.from(new Set(quizGetCycleUsed(chapterId).concat(ids)));
+  localStorage.setItem(quizCycleKey(chapterId), JSON.stringify(merged));
+}
+
+function quizResetCycle(chapterId){
+  localStorage.setItem(quizCycleKey(chapterId), JSON.stringify([]));
+}
+
+function quizBuildSession(chapter, targetLen){
+  targetLen = targetLen || QUIZ_TARGET_LEN;
+  if(targetLen <= 0) return [];
+
+  const missedIds = quizGetMissedIds(chapter.id);
+  const usedIds = quizGetCycleUsed(chapter.id);
+
+  // Les questions ratées passent en priorité, mais seulement si elles n'ont pas déjà été
+  // montrées dans le cycle en cours (sinon elles écraseraient la rotation).
+  const missedCap = Math.max(1, Math.ceil(targetLen * 0.3));
+  const missedAvailable = quizShuffle(chapter.questions.filter(q => missedIds.includes(q.id) && !usedIds.includes(q.id)));
+  const missedPick = missedAvailable.slice(0, missedCap);
+  const pickedIds = new Set(missedPick.map(q => q.id));
+
+  // Le reste vient exclusivement de ce qui n'a pas encore été vu dans ce cycle.
+  const unseenPool = quizShuffle(chapter.questions.filter(q => !usedIds.includes(q.id) && !pickedIds.has(q.id)));
+  let session = missedPick.concat(unseenPool).slice(0, targetLen);
+
+  // Si le cycle ne fournit pas assez de questions inédites pour remplir la session (on a fait le
+  // tour de toute la banque), on relance un nouveau cycle et on complète avec les questions déjà
+  // vues avant — mais jamais deux fois la même question à l'intérieur d'UNE session.
+  if(session.length < targetLen && chapter.questions.length > session.length){
+    quizResetCycle(chapter.id);
+    const sessionIds = new Set(session.map(q => q.id));
+    const rest = quizShuffle(chapter.questions.filter(q => !sessionIds.has(q.id)));
+    session = session.concat(rest).slice(0, targetLen);
+  }
+
+  // On coche toutes les questions de cette session comme "vues" pour le cycle en cours : elles ne
+  // repasseront qu'après avoir fait le tour du reste de la banque de ce chapitre.
+  quizAddCycleUsed(chapter.id, session.map(q => q.id));
+
+  return quizShuffle(session);
+}
+module.exports = { QUIZ_CHAPTERS, quizBuildSession };
